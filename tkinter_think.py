@@ -10,10 +10,6 @@ from uao import Big5UAOCodec
 
 import tkinter as tk
 
-# def insert_point():
-#     var = e.get()
-#     t.insert('insert',var)
-
 class APP:
     def __init__(self,win):
         self.ID = ''
