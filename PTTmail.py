@@ -74,6 +74,7 @@ class APP:
         ErrCode = self.PTTBot.login()
         for id_num in self.recipient.split('@'):
             self.SendMail(id_num,self.title,self.content)
+        self.PTTBot.logout()
     def SendMail(self,id, title, content):
         ErrCode = self.PTTBot.mail(id, title, content, 0)
         if ErrCode == PTT.ErrorCode.Success:
