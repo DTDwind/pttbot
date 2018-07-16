@@ -9,6 +9,7 @@ from PTTLibraryQ import PTT
 from uao import Big5UAOCodec
 
 import tkinter as tk
+from tkinter import messagebox
 class APP:
     def __init__(self,win):
         self.ID = ''
@@ -31,6 +32,7 @@ class APP:
         self.contentlabel=tk.Label(win, text="內容:")   #建立標籤物件
         #self.backuplabel=tk.Label(win, text="自存底搞")   #建立標籤物件
         # label.pack()       #顯示元件
+        self.Preview_button=tk.Button(win, text="預覽", command=self.Preview)
         self.button=tk.Button(win, text="Sent!", command=self.GUIlogin)
         #self.playbutton=tk.Button(win, text="PLAY", command=self.GUIlogin)
         self.text = tk.Text(win,height=1,width=68)
@@ -41,7 +43,7 @@ class APP:
         self.content_input = tk.Text(win,height=5,width=68)
         self.var1 = tk.IntVar()
         self.backup_input = tk.Checkbutton(win, text='自存底搞', variable=self.var1, onvalue=1, offvalue=0)
-
+        
         self.IDlabel.grid(column=0,row=0)
 
         self.text.grid(column=1,row=0,columnspan=5)
@@ -56,6 +58,7 @@ class APP:
         self.contentlabel.grid(column=0,row=5)
         self.content_input.grid(column=1,row=5,columnspan=5,rowspan=5)
         self.backup_input.grid(column=0,row=11)
+        self.Preview_button.grid(column=1,row=11)
         # r=-1
         # for i in range(20):
         #     if i%2 == 0:c=1
@@ -64,6 +67,21 @@ class APP:
         #     self.Qtext[i].grid(column=c,row=r+9)
 
         self.button.grid(column=3,row=11)
+    def Preview(self):
+        self.recipient = self.re_input.get("1.0",'end-1c')
+        self.title = self.title_input.get("1.0",'end-1c')
+        self.content = self.content_input.get("1.0",'end-1c')
+        self.esc = self.esc_input.get("1.0",'end-1c')
+        i = 0
+        esc_content = self.esc.split('@')
+        escape_content = ''
+        for id_num in self.recipient.split('@'):
+            if i < len(esc_content): escape_content = self.content.replace('[指令]', esc_content[i])
+            else :escape_content = self.content
+            i +=1
+            tk.messagebox.showinfo(title=id_num,message=escape_content)#提示信息对话窗
+        
+        
     def GUIlogin(self):
         self.Password = self.password_input.get()
         self.ID = self.text.get("1.0",'end-1c')
