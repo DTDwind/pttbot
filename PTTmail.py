@@ -5,7 +5,7 @@ import getpass
 import codecs
 
 import re
-from PTTLibrary import PTT
+from PTTLibraryQ import PTT
 from uao import Big5UAOCodec
 
 import tkinter as tk
@@ -85,7 +85,12 @@ class APP:
             self.SendMail(id_num,self.title,escape_content)
         #self.PTTBot.logout()
     def SendMail(self,id, title, content):
-        ErrCode = self.PTTBot.mail(id, title, content, 0)
+        # 第一個參數是你想寄信的鄉民 ID
+        # 第二個參數是信件標題
+        # 第三個參數是信件內容
+        # 第四個參數是簽名檔選擇 0 不加簽名檔
+        # 第四個參數是是否字存底搞
+        ErrCode = self.PTTBot.mail(id, title, content, 0,0)
         if ErrCode == PTT.ErrorCode.Success:
             self.PTTBot.Log('寄信給 ' + id + ' 成功')
         else:

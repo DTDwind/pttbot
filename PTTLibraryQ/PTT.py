@@ -1640,7 +1640,7 @@ class Library(object):
         self.__ErrorCode = ErrCode
         return ErrCode, result
 
-    def mail(self, UserID, MailTitle, MailContent, SignType):
+    def mail(self, UserID, MailTitle, MailContent, SignType, save_backup = 1):
         self.__IdleTime = 0
         ConnectIndex = 0
         if self.__isMailBoxFull:
@@ -1743,7 +1743,8 @@ class Library(object):
         SendMessage = '\x18'
         Refresh = True
         isBreakDetect = False
-        
+        if save_backup:ans="y"
+        else: ans="n"
         DetectTargetList = [
             _DetectUnit(
                 '任意鍵繼續',
@@ -1759,8 +1760,9 @@ class Library(object):
             ),
             _DetectUnit(
                 '自存底稿',
-                '是否自存底稿', 
-                _ResponseUnit('y\r', True),
+                '是否自存底稿',
+                # if save_backup: 
+                _ResponseUnit(ans+'\r', True),
             ),
             # 選擇簽名檔
             _DetectUnit(
