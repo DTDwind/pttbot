@@ -22,37 +22,40 @@ class APP:
         self.content = ''
         self.esc = ''
         win.title("Sent Mail")
-        win.geometry('250x220')
+        win.geometry('600x220')
         self.IDlabel=tk.Label(win, text="ID:")   #建立標籤物件
         self.PWlabel=tk.Label(win, text="Password:")   #建立標籤物件
         self.relabel=tk.Label(win, text="收件人:")   #建立標籤物件
         self.esclabel=tk.Label(win, text="指令:")   #建立標籤物件
         self.titlelabel=tk.Label(win, text="標題:")   #建立標籤物件
         self.contentlabel=tk.Label(win, text="內容:")   #建立標籤物件
-
+        #self.backuplabel=tk.Label(win, text="自存底搞")   #建立標籤物件
         # label.pack()       #顯示元件
         self.button=tk.Button(win, text="Sent!", command=self.GUIlogin)
         #self.playbutton=tk.Button(win, text="PLAY", command=self.GUIlogin)
-        self.text = tk.Text(win,height=1,width=24)
-        self.password_input = tk.Entry(win,show='*',width=24)
-        self.re_input = tk.Text(win,height=1,width=24)
-        self.esc_input = tk.Text(win,height=1,width=24)
-        self.title_input = tk.Text(win,height=1,width=24)
-        self.content_input = tk.Text(win,height=5,width=24)
+        self.text = tk.Text(win,height=1,width=68)
+        self.password_input = tk.Entry(win,show='*',width=68)
+        self.re_input = tk.Text(win,height=1,width=68)
+        self.esc_input = tk.Text(win,height=1,width=68)
+        self.title_input = tk.Text(win,height=1,width=68)
+        self.content_input = tk.Text(win,height=5,width=68)
+        self.var1 = tk.IntVar()
+        self.backup_input = tk.Checkbutton(win, text='自存底搞', variable=self.var1, onvalue=1, offvalue=0)
 
         self.IDlabel.grid(column=0,row=0)
 
-        self.text.grid(column=1,row=0,columnspan=3)
+        self.text.grid(column=1,row=0,columnspan=5)
         self.PWlabel.grid(column=0,row=1)
-        self.password_input.grid(column=1,row=1,columnspan=3)
+        self.password_input.grid(column=1,row=1,columnspan=5)
         self.relabel.grid(column=0,row=2)
-        self.re_input.grid(column=1,row=2,columnspan=3)
+        self.re_input.grid(column=1,row=2,columnspan=5)
         self.esclabel.grid(column=0,row=3)
-        self.esc_input.grid(column=1,row=3,columnspan=3)
+        self.esc_input.grid(column=1,row=3,columnspan=5)
         self.titlelabel.grid(column=0,row=4)
-        self.title_input.grid(column=1,row=4,columnspan=3)
+        self.title_input.grid(column=1,row=4,columnspan=5)
         self.contentlabel.grid(column=0,row=5)
-        self.content_input.grid(column=1,row=5,columnspan=3,rowspan=5)
+        self.content_input.grid(column=1,row=5,columnspan=5,rowspan=5)
+        self.backup_input.grid(column=0,row=11)
         # r=-1
         # for i in range(20):
         #     if i%2 == 0:c=1
@@ -60,7 +63,7 @@ class APP:
         #     if i%2==0:r+=1
         #     self.Qtext[i].grid(column=c,row=r+9)
 
-        self.button.grid(column=2,row=19)
+        self.button.grid(column=3,row=11)
     def GUIlogin(self):
         self.Password = self.password_input.get()
         self.ID = self.text.get("1.0",'end-1c')
@@ -68,7 +71,7 @@ class APP:
         self.title = self.title_input.get("1.0",'end-1c')
         self.content = self.content_input.get("1.0",'end-1c')
         self.esc = self.esc_input.get("1.0",'end-1c')
-        # print(self.recipient.split('@'))
+
         self.PTTlogin()
     def PTTlogin(self):
         if self.PTTBot == '':
@@ -89,8 +92,8 @@ class APP:
         # 第二個參數是信件標題
         # 第三個參數是信件內容
         # 第四個參數是簽名檔選擇 0 不加簽名檔
-        # 第五個參數是是否字存底搞
-        ErrCode = self.PTTBot.mail(id, title, content, 0,0)
+        # 第五個參數是是否自存底搞 1存
+        ErrCode = self.PTTBot.mail(id, title, content, 0,self.var1.get())
         if ErrCode == PTT.ErrorCode.Success:
             self.PTTBot.Log('寄信給 ' + id + ' 成功')
         else:
